@@ -40,6 +40,7 @@ import javax.swing.SpringLayout;
 import javax.swing.WindowConstants;
 
 import server.Server;
+import server.ThrottleService;
 
 /**
  * The application window for the {@link Server}, where you can update

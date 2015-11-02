@@ -563,3 +563,41 @@ Software caused connection abort: socket write error
 2015-11-02T17:07:34.949 Too Many Threads: Threads: 8 Connections: 4
 2015-11-02T17:07:35.957 Too Many Threads: Threads: 8 Connections: 5
 2015-11-02T17:07:36.964 Too Many Threads: Threads: 8 Connections: 6
+2015-11-02T17:48:03.126 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:04.174 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:05.182 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:06.192 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:07.206 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:08.214 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:09.223 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:10.234 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:11.242 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:48:12.251 Too Many Threads: Threads: 8 Connections: 0
+words
+2015-11-02T17:56:21.678 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:22.698 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:23.708 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:24.716 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:25.725 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:26.734 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:27.742 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:28.751 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:29.759 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:30.768 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:56:31.776 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:27.533 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:28.558 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:29.567 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:30.575 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:31.579 Too Many Threads: Threads: 8 Connections: 0
+2015-11-02T17:57:32.587 Too Many Threads: Threads: 56 Connections: 33
+2015-11-02T18:05:35.509 Connection reset
+2015-11-02T18:05:35.532 Connection reset by peer: socket write error
+2015-11-02T18:07:47.598 Read timed out
+2015-11-02T18:07:47.611 Connection reset by peer: socket write error
+2015-11-02T18:07:49.496 Read timed out
+2015-11-02T18:07:49.529 Connection reset by peer: socket write error
+2015-11-02T18:07:49.996 2015-11-02T18:07:49.996 Read timed out
+Read timed out
+2015-11-02T18:07:50.028 2015-11-02T18:07:50.028 Connection reset by peer: socket write errorConnection reset by peer: socket write error
+

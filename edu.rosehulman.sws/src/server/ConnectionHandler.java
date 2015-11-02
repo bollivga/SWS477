@@ -85,9 +85,9 @@ public class ConnectionHandler implements Runnable {
 		try {
 			inStream = this.socket.getInputStream();
 			outStream = this.socket.getOutputStream();
-			if(server.isThrottled(this.socket.getInetAddress().getAddress())){
+			/*if(server.isThrottled(this.socket.getInetAddress().getAddress())){
 			return;
-			}
+			}*/
 		}
 		catch(Exception e) {
 			// Cannot do anything if we have exception reading input or output stream
@@ -158,10 +158,10 @@ public class ConnectionHandler implements Runnable {
 			}
 			else {
 				Plugin handler = this.server.handlers.get(request.getContextRoot());
-				System.out.println(request.getMethod());
+				/*System.out.println(request.getMethod());
 				System.out.println(request.getUri());
 				
-				System.out.println(request.getHeader());
+				System.out.println(request.getHeader());*/
 				if(handler == null){
 					response = HttpResponseFactory.create400BadRequest(Protocol.CLOSE);
 				}/*else{

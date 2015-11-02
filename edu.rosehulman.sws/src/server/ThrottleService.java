@@ -26,9 +26,7 @@
  * http://clarkson.edu/~rupakhcr
  */
  
-package gui;
-
-import server.Server;
+package server;
 
 /**
  * 

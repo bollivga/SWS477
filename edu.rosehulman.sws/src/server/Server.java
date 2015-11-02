@@ -124,6 +124,8 @@ public class Server implements Runnable {
 	 */
 	public void run() {
 		try {
+			ThreadThrottler tt=new ThreadThrottler(this);
+			new Thread(tt).start();
 			Path dir = Paths.get(rootDirectory + "/plugins");
 			File x = dir.toFile();
 			File[] jars = x.listFiles();
@@ -243,5 +245,11 @@ public class Server implements Runnable {
 	public void clearTrackers() {
 		this.tracker.clear();
 		
+	}
+	public long getConnections(){
+		return this.connections;
+	}
+	public int getThreadCount(){
+		return Thread.activeCount();
 	}
 }

@@ -85,9 +85,10 @@ public class ConnectionHandler implements Runnable {
 		try {
 			inStream = this.socket.getInputStream();
 			outStream = this.socket.getOutputStream();
-			/*if(server.isThrottled(this.socket.getInetAddress().getAddress())){
+			if(server.isThrottled(this.socket.getInetAddress().getAddress())){
+				logError(new Exception(this.socket.getInetAddress().getAddress()+" has been throttled"));
 			return;
-			}*/
+			}
 		}
 		catch(Exception e) {
 			// Cannot do anything if we have exception reading input or output stream

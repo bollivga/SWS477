@@ -38,7 +38,7 @@ import protocol.ProtocolException;
 /**
  * This class is responsible for handling a incoming request
  * by creating a {@link HttpRequest} object and sending the appropriate
- * response be creating a {@link HttpResponse} object. It implements
+ * response be creating a {@link HttpFileResponse} object. It implements
  * {@link Runnable} to be used in multi-threaded environment.
  * 
  * @author Chandan R. Rupakheti (rupakhet@rose-hulman.edu)
@@ -71,10 +71,11 @@ public class ConnectionHandler implements Runnable {
 	/**
 	 * The entry point for connection handler. It first parses
 	 * incoming request and creates a {@link HttpRequest} object,
-	 * then it creates an appropriate {@link HttpResponse} object
+	 * then it creates an appropriate {@link HttpFileResponse} object
 	 * and sends the response back to the client (web browser).
 	 */
 	public void run() {
+		System.out.println("Running");
 		try{
 		// Get the start time
 		long start = System.currentTimeMillis();
@@ -111,6 +112,7 @@ public class ConnectionHandler implements Runnable {
 		try {
 			
 			request = HttpRequest.read(inStream);
+			System.out.println("Got request");
 		}
 		catch(ProtocolException pe) {
 			// We have some sort of protocol exception. Get its status code and create response
@@ -158,6 +160,7 @@ public class ConnectionHandler implements Runnable {
 				// TODO: Fill in the rest of the code here
 			}
 			else {
+				System.out.println(request.getContextRoot());
 				Plugin handler = this.server.handlers.get(request.getContextRoot());
 				/*System.out.println(request.getMethod());
 				System.out.println(request.getUri());
@@ -213,7 +216,9 @@ public class ConnectionHandler implements Runnable {
 		try {
 			FileOutputStream out = new FileOutputStream(f, true);
 			out.write((LocalDateTime.now().toString()+" ").getBytes());
-			out.write(e.getMessage().getBytes());
+			
+			String s = e.getMessage();
+			out.write(s.getBytes());
 			out.write("\n".getBytes());
 			out.close();
 		} catch (Exception exception) {

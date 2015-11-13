@@ -106,6 +106,13 @@ public class HttpRequest {
 //		// TODO Auto-generated method stub
 //		return uri.substring(uri.substring(uri.substring(1).indexOf("/")+2).indexOf("/")+1);
 	}
+	public String getLongerCrap(){
+		if (strings==null){
+			parseURI();
+			
+		}
+		return "/"+strings[1]+"/"+strings[2];
+	}
 	/**
 	 * The version of the http request.
 	 * @return the version

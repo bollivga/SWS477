@@ -1,6 +1,6 @@
 /*
- * ThreadThrottler.java
- * Nov 2, 2015
+ * Data.java
+ * Nov 11, 2015
  *
  * Simple Web Server (SWS) for EE407/507 and CS455/555
  * 
@@ -26,43 +26,64 @@
  * http://clarkson.edu/~rupakhcr
  */
  
-package server;
+package plugins.marauders;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  * Chandan-- change me! 
  */
-public class ThreadThrottler implements Runnable{
-	private Server server;
-	private final double FACTOR=1.2;
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Data {
+	int lastStudentID;
+	int maxInsultID;
+	String passphrase;
+	public Data(){}
 	
-	public ThreadThrottler(Server server){
-		this.server=server;
+	@JsonProperty("lastStudentID")
+	public void setLastStudentID(int lastStudentID){
+		this.lastStudentID=lastStudentID;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	/**
+	 * @return the lastStudentID
 	 */
-	@Override
-	public void run() {
-		while (true){
-//			try {
-//				Thread.sleep(1000);
-//				long connections=server.getConnections();
-//				long threads=server.getThreadCount();
-//				//System.out.println(String.format("Threads: %d Connections: %d", threads, connections));
-//				if (threads>FACTOR*connections){
-//					ConnectionHandler.logError(new Exception(String.format("Too Many Threads: Threads: %d Connections: %d", threads, connections)));
-//				}
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				ConnectionHandler.logError(e);
-//			}
-			
-		}
-		
+	public int getLastStudentID() {
+		return lastStudentID;
 	}
-	
 
+	/**
+	 * @return the maxInsultID
+	 */
+	public int getMaxInsultID() {
+		return maxInsultID;
+	}
+
+	/**
+	 * @param maxInsultID the maxInsultID to set
+	 */
+	@JsonProperty("maxInsultID")
+	public void setMaxInsultID(int maxInsultID) {
+		this.maxInsultID = maxInsultID;
+	}
+
+	/**
+	 * @return the passphrase
+	 */
+	@JsonProperty("passphrase")
+	public String getPassphrase() {
+		return passphrase;
+	}
+
+	/**
+	 * @param passphrase the passphrase to set
+	 */
+	public void setPassphrase(String passphrase) {
+		this.passphrase = passphrase;
+	}
+
+	
+	
 }

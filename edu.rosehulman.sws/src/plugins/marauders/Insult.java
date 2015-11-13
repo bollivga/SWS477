@@ -1,6 +1,6 @@
 /*
- * ThreadThrottler.java
- * Nov 2, 2015
+ * Insult.java
+ * Nov 11, 2015
  *
  * Simple Web Server (SWS) for EE407/507 and CS455/555
  * 
@@ -26,42 +26,54 @@
  * http://clarkson.edu/~rupakhcr
  */
  
-package server;
+package plugins.marauders;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  * Chandan-- change me! 
  */
-public class ThreadThrottler implements Runnable{
-	private Server server;
-	private final double FACTOR=1.2;
-	
-	public ThreadThrottler(Server server){
-		this.server=server;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Insult {
+	String code;
+	String message;
+	/**
+	 * 
 	 */
-	@Override
-	public void run() {
-		while (true){
-//			try {
-//				Thread.sleep(1000);
-//				long connections=server.getConnections();
-//				long threads=server.getThreadCount();
-//				//System.out.println(String.format("Threads: %d Connections: %d", threads, connections));
-//				if (threads>FACTOR*connections){
-//					ConnectionHandler.logError(new Exception(String.format("Too Many Threads: Threads: %d Connections: %d", threads, connections)));
-//				}
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				ConnectionHandler.logError(e);
-//			}
-			
-		}
+	public Insult() {
 		
+	}
+	/**
+	 * @return the code
+	 */
+	@JsonProperty("code")
+	public String getCode() {
+		return code;
+	}
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+	/**
+	 * @return the message
+	 */
+	@JsonProperty("message")
+	public String getMessage() {
+		return message;
+	}
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String toString(){
+		return String.format("{\"code\": %s, \"message\": \"%s\"}", this.code, this.message);
 	}
 	
 

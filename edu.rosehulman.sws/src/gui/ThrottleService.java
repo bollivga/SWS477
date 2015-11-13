@@ -1,6 +1,6 @@
 /*
- * ThreadThrottler.java
- * Nov 2, 2015
+ * ThrottleService.java
+ * Nov 1, 2015
  *
  * Simple Web Server (SWS) for EE407/507 and CS455/555
  * 
@@ -26,19 +26,24 @@
  * http://clarkson.edu/~rupakhcr
  */
  
-package server;
+package gui;
+
+import server.Server;
 
 /**
  * 
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  * Chandan-- change me! 
  */
-public class ThreadThrottler implements Runnable{
+public class ThrottleService implements Runnable {
+
 	private Server server;
-	private final double FACTOR=1.2;
-	
-	public ThreadThrottler(Server server){
-		this.server=server;
+
+	/**
+	 * @param server
+	 */
+	public ThrottleService(Server server) {
+		this.server = server;
 	}
 
 	/* (non-Javadoc)
@@ -46,23 +51,16 @@ public class ThreadThrottler implements Runnable{
 	 */
 	@Override
 	public void run() {
-		while (true){
-//			try {
-//				Thread.sleep(1000);
-//				long connections=server.getConnections();
-//				long threads=server.getThreadCount();
-//				//System.out.println(String.format("Threads: %d Connections: %d", threads, connections));
-//				if (threads>FACTOR*connections){
-//					ConnectionHandler.logError(new Exception(String.format("Too Many Threads: Threads: %d Connections: %d", threads, connections)));
-//				}
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				ConnectionHandler.logError(e);
-//			}
-			
+		while(true){
+			server.clearTrackers();
+			try {
+				Thread.sleep(300000);
+			} catch (InterruptedException exception) {
+				// TODO Auto-generated catch block
+				exception.printStackTrace();
+			}
 		}
 		
 	}
-	
 
 }

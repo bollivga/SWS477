@@ -47,6 +47,9 @@ public class Protocol {
     public static final int OK_CODE = 200;
     public static final String OK_TEXT = "OK";
     
+    public static final int BAD_PASSPHRASE_CODE=394;
+    public static final String BAD_PASSPHRASE_TEXT="Hello, Snape!";
+    
     public static final int NOCON_CODE = 204;
     public static final String NOCON_TEXT = "No Content";
     
@@ -76,6 +79,9 @@ public class Protocol {
     public static final String LAST_MODIFIED = "Last-Modified";
     public static final String CONTENT_LENGTH = "Content-Length";
     public static final String CONTENT_TYPE = "Content-Type";
+    
+    public static final String ACCESS_CONTROL= "Access-Control-Allow-Origin";
+    public static final String ACCESS_CONTROL_VALUE="http://localhost:8080";
     
     /**
      * A chunk size to be used when reading a file and sending it to a socket. 

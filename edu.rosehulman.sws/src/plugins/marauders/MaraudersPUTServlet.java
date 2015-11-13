@@ -1,6 +1,6 @@
 /*
- * ThreadThrottler.java
- * Nov 2, 2015
+ * MaraudersPUTServlet.java
+ * Nov 11, 2015
  *
  * Simple Web Server (SWS) for EE407/507 and CS455/555
  * 
@@ -26,43 +26,32 @@
  * http://clarkson.edu/~rupakhcr
  */
  
-package server;
+package plugins.marauders;
+
+import plugins.Servlet;
+import protocol.HttpRequest;
+import protocol.HttpResponse;
 
 /**
  * 
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  * Chandan-- change me! 
  */
-public class ThreadThrottler implements Runnable{
-	private Server server;
-	private final double FACTOR=1.2;
-	
-	public ThreadThrottler(Server server){
-		this.server=server;
+public class MaraudersPUTServlet extends Servlet{
+	public MaraudersPUTServlet(){
+		super();
+	}
+	public MaraudersPUTServlet(String rootDirectory){
+		super(rootDirectory, MaraudersPUTServlet.class.getName());
 	}
 
 	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	 * @see plugins.Servlet#handleRequest(protocol.HttpRequest)
 	 */
 	@Override
-	public void run() {
-		while (true){
-//			try {
-//				Thread.sleep(1000);
-//				long connections=server.getConnections();
-//				long threads=server.getThreadCount();
-//				//System.out.println(String.format("Threads: %d Connections: %d", threads, connections));
-//				if (threads>FACTOR*connections){
-//					ConnectionHandler.logError(new Exception(String.format("Too Many Threads: Threads: %d Connections: %d", threads, connections)));
-//				}
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				ConnectionHandler.logError(e);
-//			}
-			
-		}
-		
+	public HttpResponse handleRequest(HttpRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
 
 }

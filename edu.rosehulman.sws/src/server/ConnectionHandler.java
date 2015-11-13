@@ -218,6 +218,9 @@ public class ConnectionHandler implements Runnable {
 			out.write((LocalDateTime.now().toString()+" ").getBytes());
 			
 			String s = e.getMessage();
+			System.out.println(e.getClass().getName());
+			System.out.println("message: ");
+			System.out.println(s);
 			out.write(s.getBytes());
 			out.write("\n".getBytes());
 			out.close();

@@ -35,6 +35,7 @@ import java.util.Map;
 
 import plugins.marauders.MaraudersDELETEServlet;
 import plugins.marauders.MaraudersGETServlet;
+import plugins.marauders.MaraudersOPTIONSServlet;
 import plugins.marauders.MaraudersPOSTServlet;
 import plugins.marauders.MaraudersPUTServlet;
 import protocol.HttpRequest;
@@ -69,10 +70,12 @@ public class MaraudersHandler extends Plugin{
 		servletMap.put(Protocol.POST, new MaraudersPOSTServlet(rootDirectory));
 		servletMap.put(Protocol.PUT, new MaraudersPUTServlet(rootDirectory));
 		servletMap.put(Protocol.DELETE, new MaraudersDELETEServlet(rootDirectory));
+		servletMap.put(Protocol.OPTIONS, new MaraudersOPTIONSServlet(rootDirectory));
 		//servlets.add(new LetItGoServlet(rootDirectory));
 	}
 	public HttpResponse handleRequest(HttpRequest request){
 		System.out.println("Handling request");
+		System.out.println(request.toString());
 		return (servletMap.get(request.getMethod())).handleRequest(request);
 		
 	}

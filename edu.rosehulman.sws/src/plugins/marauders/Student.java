@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Student {
+	String id;
 	String name;
 	String house;
 	String location;
@@ -20,6 +21,13 @@ public class Student {
 	 */
 	public Student() {
 		
+	}
+	@JsonProperty("id")
+	public String getID(){
+		return this.id;
+	}
+	public void setID(String id){
+		this.id=id;
 	}
 	/**
 	 * @return the name

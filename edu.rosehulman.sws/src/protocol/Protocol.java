@@ -42,6 +42,7 @@ public class Protocol {
     public static final String POST = "POST";
     public static final String PUT = "PUT";
     public static final String DELETE = "DELETE";
+    public static final String OPTIONS= "OPTIONS";
     
     // Some useful http codes and text
     public static final int OK_CODE = 200;
@@ -92,9 +93,9 @@ public class Protocol {
     public static final int CHUNK_LENGTH = 4096; // 4KB
     
     // Server information that we want to send in "Server:" header field
-    public static final String SERVER_INFO = "SimpleWebServer(SWS)/1.0.0";
+    public static final String SERVER_INFO = "Marauders-Plus-Two's Database/1.0.0";
     public static final String PROVIDER = "Provider";
-    public static final String AUTHOR = "Chandan R. Rupakheti";
+    public static final String AUTHOR = "Messrs. Moony, Wormtail, Padfoot and Prongs & Mr Raven and Ms Batty";
     public static final String CLOSE = "Close";
     public static final String OPEN = "Keep-Alive";
     public static final String DEFAULT_FILE = "index.html";

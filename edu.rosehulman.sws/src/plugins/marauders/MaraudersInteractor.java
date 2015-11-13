@@ -45,6 +45,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.internal.LinkedTreeMap;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
@@ -111,8 +112,10 @@ public class MaraudersInteractor {
 		            .setEndpoint("http://s40server.csse.rose-hulman.edu:9200")
 		            .build();
 		    MaraudersService service=adapter.create(MaraudersService.class);
-		    LinkedTreeMap o=(LinkedTreeMap) service.addStudent(d.getLastStudentID()+1, new TypedJsonString(s.toString()));
+		    int id=d.getLastStudentID()+1;
+		    LinkedTreeMap o=(LinkedTreeMap) service.addStudent(id, new TypedJsonString(s.toString()));
 		    System.out.println(o.getClass().getName());
+		    updateStudentIDData(id);
 //		    ArrayList list=(ArrayList)((LinkedTreeMap)o.get("hits")).get("hits");
 //		    for (Object obj: list){
 //		    	LinkedTreeMap obj2=(LinkedTreeMap) obj;
@@ -147,6 +150,48 @@ public class MaraudersInteractor {
 			e.printStackTrace();
 		}
 	}
+	public static boolean updateStudentLocation(String name, String location){
+		Student s=getStudent(name);
+		if (s==null){
+			return false;
+		}
+		else{
+			String doc=String.format("{\"doc\": {\"location\": \"%s\"}}", location+"");
+			try{
+				RestAdapter adapter = new RestAdapter.Builder()
+			            .setEndpoint("http://s40server.csse.rose-hulman.edu:9200")
+			            .build();
+			    MaraudersService service=adapter.create(MaraudersService.class);
+			    LinkedTreeMap o=(LinkedTreeMap) service.updateStudent(Integer.parseInt(s.getID()), new TypedJsonString(doc.toString()));
+			    return true;
+			}catch(Exception e){
+				e.printStackTrace();
+				return false;
+			}
+			
+		}
+	}
+	public static boolean deleteStudent(String name){
+		Student s=getStudent(name);
+		if (s==null){
+			return false;
+		}
+		else{
+			
+			try{
+				RestAdapter adapter = new RestAdapter.Builder()
+			            .setEndpoint("http://s40server.csse.rose-hulman.edu:9200")
+			            .build();
+			    MaraudersService service=adapter.create(MaraudersService.class);
+			    LinkedTreeMap o=(LinkedTreeMap) service.deleteStudent(Integer.parseInt(s.getID()));
+			    return true;
+			}catch(Exception e){
+				e.printStackTrace();
+				return false;
+			}
+			
+		}
+	}
 	
 	public static Student getStudent(String searchTerms){
 		String search=String.format("{\"query\": {\"filtered\": {\"filter\": {\"term\": "+
@@ -161,8 +206,10 @@ public class MaraudersInteractor {
 		    ArrayList list=(ArrayList)((LinkedTreeMap)o.get("hits")).get("hits");
 		    for (Object obj: list){
 		    	LinkedTreeMap obj2=(LinkedTreeMap) obj;
+		    	String id=(String)obj2.get("_id");
 		    	LinkedTreeMap source=(LinkedTreeMap) obj2.get("_source");
 		    	Student s=new Student();
+		    	s.setID(id);
                 s.setHouse((String) source.get("house"));
                 s.setLocation((String) source.get("location"));
                 s.setName((String)source.get("name"));
@@ -192,8 +239,10 @@ public class MaraudersInteractor {
 		    List<Student> students= new ArrayList<Student>();
 		    for (Object obj: list){
 		    	LinkedTreeMap obj2=(LinkedTreeMap) obj;
+		    	String id=(String)obj2.get("_id");
 		    	LinkedTreeMap source=(LinkedTreeMap) obj2.get("_source");
 		    	Student s=new Student();
+		    	s.setID(id);
                 s.setHouse((String) source.get("house"));
                 s.setLocation((String) source.get("location"));
                 s.setName((String)source.get("name"));
@@ -277,11 +326,15 @@ public class MaraudersInteractor {
 		
 		@POST("/marauders/student/{id}/_update")
 		@Headers("Accept: application/json")
-		public Object updateStudent(@Body TypedString body);
+		public Object updateStudent(@Path("id") int id, @Body TypedString body);
 		
 		@POST("/marauders/data/0/_update")
 		@Headers("Accept: application/json")
 		public Object updateData(@Body TypedString body);
+		
+		@DELETE("/marauders/student/{id}")
+		@Headers("Accept: application/json")
+		public Object deleteStudent(@Path("id") int id);
 		
 		
 		

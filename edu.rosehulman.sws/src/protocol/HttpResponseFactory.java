@@ -81,7 +81,7 @@ public class HttpResponseFactory {
 
 		// Lets fill up header fields with more information
 		fillGeneralHeader(response, connection);
-
+		
 		// Lets add last modified date for the file
 		long timeSinceEpoch = file.lastModified();
 		Date modifiedTime = new Date(timeSinceEpoch);
@@ -137,6 +137,15 @@ public class HttpResponseFactory {
 		return response;
 	}
 
+	public static HttpResponse createDelete(String connection){
+		HttpResponse response = new HttpResponse(Protocol.VERSION, Protocol.OK_CODE, Protocol.OK_TEXT,
+				new HashMap<String, String>(), null);
+
+		// Lets fill up header fields with more information
+		fillGeneralHeader(response, connection);
+		return response;
+	}
+	
 	public static HttpResponse create204NoCon(String connection) {
 		HttpResponse response = new HttpResponse(Protocol.VERSION, Protocol.NOCON_CODE, Protocol.NOCON_TEXT,
 				new HashMap<String, String>(), null);
@@ -225,5 +234,16 @@ public class HttpResponseFactory {
 	public static HttpResponse create304NotModified(String connection) {
 		// TODO fill in this method
 		return null;
+	}
+	
+	public static HttpResponse createOPTIONS(String connection){
+		HttpResponse response = new HttpResponse(Protocol.VERSION, Protocol.OK_CODE, Protocol.OK_TEXT,
+				new HashMap<String, String>(), null);
+
+		// Lets fill up header fields with more information
+		fillGeneralHeader(response, connection);
+		response.put("Access-Control-Allow-Methods", "GET,PUT,DELETE,POST");
+		
+		return response;
 	}
 }

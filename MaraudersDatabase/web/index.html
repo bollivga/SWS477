@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Marauders' Database</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Marauders' Database</div>
+        <table border="0" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Passphrase:</th>
+                    <th><input type="text" id="pass" value="" /></th>
+                </tr>
+            </thead>
+            
+                
+                    
+                
+                <tbody>
+                    
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" id="mname" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>House:</td>
+                        <td><input type="text" id="mhouse" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td><input type="text" id="mloc" value="" /></td>
+                        
+                    </tr>
+                    <tr>
+                        <td><button name="mdbsearch" onclick="doMGet()">Search</button></td> 
+                        <td><button name="mdbsubmit" onclick="doMPost()">Submit Location</button></td>
+                        <td><button name="mdbsubmit" onclick="doMPut()">Add Student</button></td>
+                        
+                        <td><button name="mdbsubmit" onclick="doMDelete()">Delete Student</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        <div id="result"></div>
+                       
+    </body>
+</html>
+<script>
+    var server = "http://137.112.232.161:8080/plugins.MaraudersHandler/Marauders/v1/student";
+    var req;
+    function isEmpty(str){
+    return !str.replace(/^\s+/g, '').length; // boolean (`true` if field is empty)
+}
+    function doMGet(){
+        if(isEmpty(document.getElementById("mname").value)){
+            doMGetAll();
+        }else{
+            doMGetName();
+        }
+    }
+    function doMGetName() {
+        var table = "<table><thead><tr><th>Name</th><th>House</th><th>Location</th></tr></thead>\
+    <tbody>"+"<tr><td>Ronald Weasley</td><td>Gryffindor</td><td>The Kitchens</td></tr>"+"</tbody>\
+</table>";
+        document.getElementById("result").innerHTML=table;
+        
+                  document.getElementById("result").innerHTML = "pass";
+        passField = document.getElementById("pass");
+        
+                  document.getElementById("result").innerHTML = "mname";
+        nameField = document.getElementById("mname");
+        
+                  document.getElementById("result").innerHTML = "mhouse";
+        houseField = document.getElementById("mhouse");
+        
+                  document.getElementById("result").innerHTML = "mloc";
+        locField = document.getElementById("mloc");
+        
+                  document.getElementById("result").innerHTML = "url";
+        var url = server + "?passphrase=\"" + escape(passField.value)+"\"&name=\""+escape(nameField.value)+"\"";
+        
+                  document.getElementById("result").innerHTML = "init";
+        req = initRequest();
+        
+                  document.getElementById("result").innerHTML = "open";
+        req.open("GET", url, false);
+        var nameData;
+        var houseData;
+        var locData;
+        req.send(null);
+                  document.getElementById("result").innerHTML = "JSON parse";
+                  console.log(req.responseText);
+                  
+                  
+        var jsonObj = JSON.parse(req.responseText);
+                  
+                  
+                  if(jsonObj.code !== 394){
+                   nameData = jsonObj.name;
+                  
+                  houseData = jsonObj.house;
+                  
+                  locData = jsonObj.location;
+                  var table1 = "<table><thead><tr><th>Name</th><th>House</th><th>Location</th></tr></thead>\
+    <tbody>"+"<tr><td>"+nameData+"</td><td>"+houseData+"</td><td>"+locData+"</td></tr>"+"</tbody>\
+</table>"
+        document.getElementById("result").innerHTML = table1;
+        }else{
+            document.getElementById("result").innerHTML = jsonObj.message;
+        }
+        
+        
+        
+}
+function doMGetAll() {
+        passField = document.getElementById("pass");
+     
+        var url = server + "?passphrase=\"" + escape(passField.value)+"\"";
+        
+                 req = initRequest();
+        
+        req.open("GET", url, false);
+        var nameData;
+        var houseData;
+        var locData;
+        req.send(null);
+                  console.log(req.responseText);
+                  var tempString = req.responseText;
+                  //tempString = "{"+tempString+"}";
+                  
+        var jsonObj = JSON.parse(tempString);
+                  console.log("Finished parsing");
+                  
+                  if(jsonObj.code !== 394){
+                  var table1 = "<table><thead><tr><th>Name</th><th>House</th><th>Location</th></tr></thead>\
+    <tbody>";
+                  document.getElementById("result").innerHTML = "before loop";
+                  for (var i = 0; jsonObj.length > i; ++i) {
+                      table1= table1 + "<tr><td>"+jsonObj[i].name+"</td><td>"+jsonObj[i].house+"</td><td>"+jsonObj[i].location+"</td></tr>";
+                  }
+                  table1 = table1 + "</tbody></table>";
+        document.getElementById("result").innerHTML = table1;
+        }else{
+            document.getElementById("result").innerHTML = jsonObj.message;
+        }
+}
+
+    function doMPost() {
+        var table = "Loading...";
+        document.getElementById("result").innerHTML=table;
+        
+                  document.getElementById("result").innerHTML = "pass";
+        passField = document.getElementById("pass");
+        
+                  document.getElementById("result").innerHTML = "mname";
+        nameField = document.getElementById("mname");
+        
+                  document.getElementById("result").innerHTML = "mloc";
+        locField = document.getElementById("mloc");
+        
+                  document.getElementById("result").innerHTML = "url";
+        var url = server;
+        
+                  document.getElementById("result").innerHTML = "init";
+        req = initRequest();
+        
+                  document.getElementById("result").innerHTML = "open";
+        req.open("POST", url, false);
+        var nameData;
+        var houseData;
+        var locData;
+        req.send("{\"passphrase\" : \""+passField.value+"\",\"name\" : \""+nameField.value+"\", \"location\" : \""+locField.value+"\"}");
+                  document.getElementById("result").innerHTML = "JSON parse";
+                  console.log(req.responseText);
+                  
+                  
+        var jsonObj = JSON.parse(req.responseText);
+                  
+                  
+                  if(jsonObj.code !== 394){
+                   nameData = jsonObj.name;
+                  
+                  houseData = jsonObj.house;
+                  
+                  locData = jsonObj.location;
+                  var table1 = "<table><thead><tr><th>Name</th><th>House</th><th>Location</th></tr></thead>\
+    <tbody>"+"<tr><td>"+nameData+"</td><td>"+houseData+"</td><td>"+locData+"</td></tr>"+"</tbody>\
+</table>"
+        document.getElementById("result").innerHTML = table1;
+        }else{
+            document.getElementById("result").innerHTML = jsonObj.message;
+        }
+        
+        
+        
+}
+function doMPut() {
+        var table = "Loading...";
+        document.getElementById("result").innerHTML=table;
+        
+                  document.getElementById("result").innerHTML = "pass";
+        passField = document.getElementById("pass");
+        
+                  document.getElementById("result").innerHTML = "mname";
+        nameField = document.getElementById("mname");
+        
+        document.getElementById("result").innerHTML = "mhouse";
+        houseField = document.getElementById("mhouse");
+                  document.getElementById("result").innerHTML = "mloc";
+        locField = document.getElementById("mloc");
+        
+                  document.getElementById("result").innerHTML = "url";
+        var url = server;
+        
+                  document.getElementById("result").innerHTML = "init";
+        req = initRequest();
+        
+                  document.getElementById("result").innerHTML = "open";
+        req.open("PUT", url, false);
+        var nameData;
+        var houseData;
+        var locData;
+        req.send("{\"passphrase\" : \""+passField.value+"\", \"house\" : \""+houseField.value+"\", \"name\" : \""+nameField.value+"\", \"location\" : \""+locField.value+"\"}");
+                  
+                  console.log(req.responseText);
+                  document.getElementById("result").innerHTML = "Complete!";
+                  var jsonObj = JSON.parse(req.responseText);
+                  if(jsonObj.code !== 394){
+                  
+                  
+        }else{
+            document.getElementById("result").innerHTML = jsonObj.message;
+        }
+        
+        
+}
+function doMDelete() {
+        var table = "Loading...";
+        document.getElementById("result").innerHTML=table;
+        
+                  document.getElementById("result").innerHTML = "pass";
+        passField = document.getElementById("pass");
+        
+                  document.getElementById("result").innerHTML = "mname";
+        nameField = document.getElementById("mname");
+        
+        document.getElementById("result").innerHTML = "mhouse";
+        houseField = document.getElementById("mhouse");
+                  document.getElementById("result").innerHTML = "mloc";
+        locField = document.getElementById("mloc");
+        
+                  document.getElementById("result").innerHTML = "url";
+        var url = server;
+        
+                  document.getElementById("result").innerHTML = "init";
+        req = initRequest();
+        
+                  document.getElementById("result").innerHTML = "open";
+        req.open("DELETE", url, false);
+        var nameData;
+        var houseData;
+        var locData;
+        document.getElementById("result").innerHTML = "Not Allowed!";
+        req.send("{\"passphrase\" : \""+passField.value+"\", \"name\" : \""+nameField.value+"\"}");
+                  document.getElementById("result").innerHTML = "Complete!";
+                  console.log(req.responseText);
+        var jsonObj = JSON.parse(req.responseText);
+        if(jsonObj.code !== 394){
+                  document.getElementById("result").innerHTML = "Complete!";
+                  
+        }else{
+            document.getElementById("result").innerHTML = jsonObj.message;
+        }
+        
+}
+function initRequest() {
+    if (window.XMLHttpRequest) {
+        if (navigator.userAgent.indexOf('MSIE') != -1) {
+            isIE = true;
+        }
+        return new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        isIE = true;
+        return new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+}function displayResponse(responseXML){
+    document.getElementById("result").innerHTML = "displayed"
+}</script>

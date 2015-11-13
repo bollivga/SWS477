@@ -31,7 +31,7 @@ import java.net.Socket;
  * 
  * @author Chandan Raj Rupakheti (rupakhet@rose-hulman.edu)
  */
-public class BruteForceAttack extends DOSAttack {
+public class BruteForcePostAttack extends DOSAttack {
 	private long connections;
 	private long serviceTime; 
 	private int iter = 0;
@@ -42,7 +42,7 @@ public class BruteForceAttack extends DOSAttack {
 	 * @param threadPool
 	 * @param taskPerSecond
 	 */
-	public BruteForceAttack(String host, int port, String[] uris,
+	public BruteForcePostAttack(String host, int port, String[] uris,
 			int threadPool, int taskPerSecond) {
 		super(host, port, uris, threadPool, taskPerSecond);
 		this.connections = 0;
@@ -68,27 +68,30 @@ public class BruteForceAttack extends DOSAttack {
 					// Use random index to avoid uniform pattern of http request
 					String uri = "/student";
 					
-					// Prepare the request buffer
-					StringBuffer buffer = new StringBuffer();
-					buffer.append("GET " + uri +"?passphrase=\"Vault Boy\""+ " HTTP/1.1");
-					buffer.append("\r\n");
-					buffer.append("connection: keep-alive");
-					buffer.append("\r\n");
-					buffer.append("accept-language: en-us,en;q=0.5");
-					buffer.append("\r\n");
-					buffer.append("host: " + host);
-					buffer.append("\r\n");
-					buffer.append("accept-charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-					buffer.append("\r\n");
-					buffer.append("accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-					buffer.append("\r\n");
-					buffer.append("\r\n");
-					
+					String s = "{\"passphrase\" : \"Vault Boy\",\"name\" : \"Ronald Weasley\", \"location\" : \"Hogsmeade\"}";
+					StringBuffer buffer1 = new StringBuffer();
+					buffer1.append("POST " + uri + " HTTP/1.1");
+					buffer1.append("\r\n");
+					buffer1.append("connection: keep-alive");
+					buffer1.append("\r\n");
+					buffer1.append("accept-language: en-us,en;q=0.5");
+					buffer1.append("\r\n");
+					buffer1.append("host: " + host);
+					buffer1.append("\r\n");
+					buffer1.append("accept-charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7");
+					buffer1.append("\r\n");
+					buffer1.append("accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+					buffer1.append("\r\n");
+					buffer1.append("Content-Length: 80");
+					buffer1.append("\r\n");
+					System.out.println(s.length());
+					buffer1.append(s);
+					buffer1.append("\r\n");
 					try {
 						// Write the request to the socket
 						OutputStream outStream = socket.getOutputStream();
 						PrintStream printStream = new PrintStream(outStream);
-						printStream.print(buffer.toString());
+						printStream.print(buffer1.toString());
 						printStream.flush();
 						
 						// Read and ignore the request
@@ -112,7 +115,7 @@ public class BruteForceAttack extends DOSAttack {
 				long end = System.currentTimeMillis();
 				long diff = end-start;
 				double serviceRate;
-				synchronized(BruteForceAttack.this) {
+				synchronized(BruteForcePostAttack.this) {
 					connections += 1;
 					serviceTime += diff;
 					serviceRate = connections / (double)serviceTime;

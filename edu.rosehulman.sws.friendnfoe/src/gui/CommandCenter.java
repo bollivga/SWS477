@@ -43,6 +43,9 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import foe.BruteForceAttack;
+import foe.BruteForceDeleteAttack;
+import foe.BruteForcePostAttack;
+import foe.BruteForcePutAttack;
 import foe.DOSAttack;
 import foe.DOSListener;
 import foe.SynFloodAttack;
@@ -71,13 +74,18 @@ public class CommandCenter extends JFrame implements CrawlListener, DOSListener 
 	private JButton butClearCrawl;
 	private JButton butStartBruteForce;
 	private JButton butStopBruteForce;
+	private JButton butStartBrutePut;
+	private JButton butStopBrutePut;
+	private JButton butStartBrutePost;
+	private JButton butStopBrutePost;
+	private JButton butStartBruteDelete;
+	private JButton butStopBruteDelete;
 	private JLabel lblServiceRate;
 	
 	private JList<String> list;
 	private DefaultListModel<String> listModel;
 	private JTextArea txtExceptions;
 	private JButton butClearExceptions;
-	
 	
 	//////////////////// Non-GUI Stuffs ////////////////////
 	private DOSAttack attacker;
@@ -390,6 +398,150 @@ public class CommandCenter extends JFrame implements CrawlListener, DOSListener 
 				}
 			}
 		});
+		this.butStartBrutePut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker != null) {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Another Attack In Progress!", "Please stop previous attack and try again!", JOptionPane.ERROR_MESSAGE);					
+					return;
+				}
+				
+				if(!extractInputInfo())
+					return;
+				
+				showMessage("Commensing Brute-Put Attack ...");
+
+				Thread mainWorker = new Thread() {
+					@Override
+					public void run() {
+						Object[] uris = CommandCenter.this.listModel.toArray();
+						String[] strUris = new String[uris.length];
+						for(int i = 0; i < uris.length; ++i) {
+							strUris[i] = uris[i].toString();
+						}
+						attacker = new BruteForcePutAttack(host, port, strUris, threadPool, taskPerSecond);
+						attacker.addDOSListener(CommandCenter.this);
+						Thread worker = new Thread(attacker);
+						worker.start();
+						
+					}
+				};
+				mainWorker.start();
+				showMessage("Brute-Force Attack Started!");
+				startUpdater();
+			}
+		});
+		
+		this.butStopBrutePut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker instanceof BruteForcePutAttack) {
+					attacker.stop();
+					stopUpdater();
+					attacker = null;
+					showMessage("Brute-Put Attack Stopped!");
+				}
+				else {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Brute-Force Attack Cannot Stop", "Another attack in progress. Brute-Force attack is not running!", JOptionPane.ERROR_MESSAGE);					
+				}
+			}
+		});
+		this.butStartBrutePost.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker != null) {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Another Attack In Progress!", "Please stop previous attack and try again!", JOptionPane.ERROR_MESSAGE);					
+					return;
+				}
+				
+				if(!extractInputInfo())
+					return;
+				
+				showMessage("Commensing Brute-Post Attack ...");
+
+				Thread mainWorker = new Thread() {
+					@Override
+					public void run() {
+						Object[] uris = CommandCenter.this.listModel.toArray();
+						String[] strUris = new String[uris.length];
+						for(int i = 0; i < uris.length; ++i) {
+							strUris[i] = uris[i].toString();
+						}
+						attacker = new BruteForcePostAttack(host, port, strUris, threadPool, taskPerSecond);
+						attacker.addDOSListener(CommandCenter.this);
+						Thread worker = new Thread(attacker);
+						worker.start();
+						
+					}
+				};
+				mainWorker.start();
+				showMessage("Brute-Post Attack Started!");
+				startUpdater();
+			}
+		});
+		
+		this.butStopBrutePost.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker instanceof BruteForcePostAttack) {
+					attacker.stop();
+					stopUpdater();
+					attacker = null;
+					showMessage("Brute-Post Attack Stopped!");
+				}
+				else {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Brute-Force Attack Cannot Stop", "Another attack in progress. Brute-Force attack is not running!", JOptionPane.ERROR_MESSAGE);					
+				}
+			}
+		});
+		this.butStartBruteDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker != null) {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Another Attack In Progress!", "Please stop previous attack and try again!", JOptionPane.ERROR_MESSAGE);					
+					return;
+				}
+				
+				if(!extractInputInfo())
+					return;
+				
+				showMessage("Commensing Brute-Delete Attack ...");
+
+				Thread mainWorker = new Thread() {
+					@Override
+					public void run() {
+						Object[] uris = CommandCenter.this.listModel.toArray();
+						String[] strUris = new String[uris.length];
+						for(int i = 0; i < uris.length; ++i) {
+							strUris[i] = uris[i].toString();
+						}
+						attacker = new BruteForceDeleteAttack(host, port, strUris, threadPool, taskPerSecond);
+						attacker.addDOSListener(CommandCenter.this);
+						Thread worker = new Thread(attacker);
+						worker.start();
+						
+					}
+				};
+				mainWorker.start();
+				showMessage("Brute-Delete Attack Started!");
+				startUpdater();
+			}
+		});
+		
+		this.butStopBruteDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(attacker instanceof BruteForceDeleteAttack) {
+					attacker.stop();
+					stopUpdater();
+					attacker = null;
+					showMessage("Brute-Delete Attack Stopped!");
+				}
+				else {
+					JOptionPane.showMessageDialog(CommandCenter.this, "Brute-Force Attack Cannot Stop", "Another attack in progress. Brute-Force attack is not running!", JOptionPane.ERROR_MESSAGE);					
+				}
+			}
+		});
 	}
 	
 	private void setupExceptionsListener() {
@@ -447,12 +599,29 @@ public class CommandCenter extends JFrame implements CrawlListener, DOSListener 
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		this.butCrawl = new JButton("Start Crawler");
 		this.butClearCrawl = new JButton("Clear Crawler URIs");
-		this.butStartBruteForce = new JButton("Start Brute-Force Attack");
-		this.butStopBruteForce = new JButton("Stop Brute-Force Attack");
 		topPanel.add(this.butCrawl);
 		topPanel.add(this.butClearCrawl);
+		
+		this.butStartBruteForce = new JButton("Start Brute-Force Attack");
+		this.butStopBruteForce = new JButton("Stop Brute-Force Attack");
 		topPanel.add(this.butStartBruteForce);
 		topPanel.add(this.butStopBruteForce);
+		
+		this.butStartBrutePut = new JButton("Start Brute-Put Attack");
+		this.butStopBrutePut = new JButton("Stop Brute-Put Attack");
+		topPanel.add(this.butStartBrutePut);
+		topPanel.add(this.butStopBrutePut);
+		
+		this.butStartBrutePost = new JButton("Start Brute-Post Attack");
+		this.butStopBrutePost = new JButton("Stop Brute-Post Attack");
+		topPanel.add(this.butStartBrutePost);
+		topPanel.add(this.butStopBrutePost);
+		
+		this.butStartBruteDelete = new JButton("Start Brute-Delete Attack");
+		this.butStopBruteDelete = new JButton("Stop Brute-Delete Attack");
+		topPanel.add(this.butStartBruteDelete);
+		topPanel.add(this.butStopBruteDelete);
+		
 		topPanel.add(new JLabel("Service Rate: "));
 		this.lblServiceRate = new JLabel("Unknown");
 		topPanel.add(this.lblServiceRate);
